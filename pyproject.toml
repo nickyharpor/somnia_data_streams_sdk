@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "somnia-data-streams-sdk"
+version = "0.9.5"
+description = "A Python SDK for Somnia data streams with first class reactivity support"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Nicky Harpor"}
+]
+keywords = ["blockchain", "somnia", "web3", "streams"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "web3>=6.0.0",
+    "eth-abi>=4.0.0",
+    "eth-utils>=2.0.0",
+    "websockets>=11.0",
+    "typing-extensions>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "pylint>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/nickyharpor/somnia_data_streams_sdk"
+Documentation = "https://github.com/nickyharpor/somnia_data_streams_sdk"
+Repository = "https://github.com/nickyharpor/somnia_data_streams_sdk"
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "integration: marks tests as integration tests (requires local testnet)",
+]

@@ -37,7 +37,6 @@ sdk = SDK.create_for_chain(SOMNIA_TESTNET["id"], private_key="0x...")
 ### Get All Registered Schemas
 
 ```python
-# 
 schemas = await sdk.streams.get_all_schemas()
 for i, schema in enumerate(schemas):
     print(f"{i+1}. {schema}")

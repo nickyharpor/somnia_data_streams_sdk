@@ -25,7 +25,7 @@ pip install somnia-data-streams-sdk
 ### Initialize the SDK
 
 ```python
-from somnia_streams import SDK, SOMNIA_TESTNET
+from somnia_data_streams_sdk import SDK, SOMNIA_TESTNET
 
 # Read-only access (no private key needed)
 sdk = SDK.create_for_chain(SOMNIA_TESTNET["id"])

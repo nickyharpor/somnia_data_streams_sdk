@@ -21,7 +21,7 @@ import os
 from web3 import Web3
 from eth_account import Account
 
-from somnia_streams import SDK
+from somnia_data_streams_sdk import SDK
 
 
 # Mark all tests in this module as integration tests
@@ -141,8 +141,8 @@ async def test_schema_registration_end_to_end(local_node_url, funded_account, mo
     # This test would require a full Streams contract deployment
     # For now, we'll test the transaction signing mechanism directly
     
-    from somnia_streams.services.web3_client import Web3Client
-    from somnia_streams.types import Client
+    from somnia_data_streams_sdk.services.web3_client import Web3Client
+    from somnia_data_streams_sdk.types import Client
     from eth_typing import ChecksumAddress
     
     # Setup
@@ -179,8 +179,8 @@ async def test_schema_registration_end_to_end(local_node_url, funded_account, mo
 @pytest.mark.asyncio
 async def test_data_publishing_end_to_end(local_node_url, funded_account, mock_streams_contract):
     """Test data publishing end-to-end with local testnet."""
-    from somnia_streams.services.web3_client import Web3Client
-    from somnia_streams.types import Client
+    from somnia_data_streams_sdk.services.web3_client import Web3Client
+    from somnia_data_streams_sdk.types import Client
     from eth_typing import ChecksumAddress
     
     # Setup
@@ -223,8 +223,8 @@ async def test_data_publishing_end_to_end(local_node_url, funded_account, mock_s
 @pytest.mark.asyncio
 async def test_transaction_is_mined(local_node_url, funded_account, mock_streams_contract):
     """Verify that transactions are properly mined."""
-    from somnia_streams.services.web3_client import Web3Client
-    from somnia_streams.types import Client
+    from somnia_data_streams_sdk.services.web3_client import Web3Client
+    from somnia_data_streams_sdk.types import Client
     from eth_typing import ChecksumAddress
     
     # Setup
@@ -266,8 +266,8 @@ async def test_transaction_is_mined(local_node_url, funded_account, mock_streams
 @pytest.mark.asyncio
 async def test_read_only_mode_without_private_key(local_node_url, mock_streams_contract):
     """Test that SDK works in read-only mode without private key."""
-    from somnia_streams.services.web3_client import Web3Client
-    from somnia_streams.types import Client
+    from somnia_data_streams_sdk.services.web3_client import Web3Client
+    from somnia_data_streams_sdk.types import Client
     from eth_typing import ChecksumAddress
     
     # Setup - no account

@@ -1,7 +1,7 @@
 """Tests for validation utilities."""
 
 import pytest
-from somnia_streams.utils import assert_address_is_valid, is_valid_hex
+from somnia_data_streams_sdk.utils import assert_address_is_valid, is_valid_hex
 
 
 def test_valid_address():

@@ -2,7 +2,7 @@
 
 import pytest
 from eth_utils import to_hex
-from somnia_streams import SchemaEncoder, SchemaItem
+from somnia_data_streams_sdk import SchemaEncoder, SchemaItem
 
 
 def test_schema_encoder_basic():

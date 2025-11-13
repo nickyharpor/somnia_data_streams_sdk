@@ -4,7 +4,7 @@ from typing import Dict, Any, List, Optional
 from eth_typing import ChecksumAddress
 from eth_utils import is_address, is_same_address
 
-from somnia_streams.types import ContractRef, KnownContracts
+from somnia_data_streams_sdk.types import ContractRef, KnownContracts
 from .abis import streams_abi
 from .addresses.contract_addresses import get_contract_address
 

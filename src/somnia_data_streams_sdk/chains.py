@@ -13,8 +13,8 @@ SOMNIA_TESTNET = {
         "decimals": 18,
     },
     "rpcUrls": {
-        "default": {"http": ["https://dream-rpc.somnia.network"]},
-        "public": {"http": ["https://dream-rpc.somnia.network"]},
+        "default": {"http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"]},
+        "public": {"http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"]},
     },
     "blockExplorers": {
         "default": {

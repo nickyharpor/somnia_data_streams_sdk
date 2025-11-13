@@ -6,7 +6,7 @@ from eth_abi import encode, decode
 from eth_utils import to_bytes, to_hex
 from eth_typing import HexStr
 
-from somnia_streams.types import SchemaItem, SchemaDecodedItem
+from somnia_data_streams_sdk.types import SchemaItem, SchemaDecodedItem
 
 TUPLE_TYPE = "tuple"
 BYTES32 = "bytes32"

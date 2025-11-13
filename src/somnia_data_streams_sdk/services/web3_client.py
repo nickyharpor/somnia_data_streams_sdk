@@ -4,7 +4,7 @@ from typing import Any, List, Optional
 from eth_typing import ChecksumAddress, HexStr
 from web3.types import TxReceipt
 
-from somnia_streams.types import Client
+from somnia_data_streams_sdk.types import Client
 
 
 class Web3Client:
@@ -93,8 +93,8 @@ class Web3Client:
         account_address = self.client.account.address
         chain_id = await self.get_chain_id()
         
-        # Fetch nonce using get_transaction_count
-        nonce = self.client.public.eth.get_transaction_count(account_address)
+        # Fetch nonce using get_transaction_count with 'pending' to include pending transactions
+        nonce = self.client.public.eth.get_transaction_count(account_address, 'pending')
         
         # Fetch gas price using eth.gas_price
         gas_price = self.client.public.eth.gas_price

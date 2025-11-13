@@ -60,6 +60,8 @@ print(f"Schema registered: {is_registered}")
 ### Schema Encoding/Decoding
 
 ```python
+from somnia_data_streams_sdk import SchemaEncoder, SchemaItem
+
 encoder = SchemaEncoder("uint256 balance, address owner")
 encoded = encoder.encode_data([
     SchemaItem(name="balance", type="uint256", value=666),
@@ -76,6 +78,8 @@ for item in decoded:
 ### Register a Schema (Consumes Gas)
 
 ```python
+from somnia_data_streams_sdk import DataSchemaRegistration
+
 registrations = [
     DataSchemaRegistration(
         id="your-unique-id-here-otherwise-wont-register",
@@ -93,6 +97,9 @@ else:
 ### Publish Data
 
 ```python
+from eth_utils import to_hex, keccak
+from somnia_data_streams_sdk import DataStream
+
 data_id = to_hex(keccak(text="your-unique-id-here-for-this-data"))
 data_streams = [
     DataStream(

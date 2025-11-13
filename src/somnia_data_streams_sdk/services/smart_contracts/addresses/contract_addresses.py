@@ -4,7 +4,7 @@ from typing import Dict, Optional
 from eth_typing import ChecksumAddress
 from eth_utils import to_checksum_address
 
-from somnia_streams.types import KnownContracts, Chains, ContractRef
+from somnia_data_streams_sdk.types import KnownContracts, Chains, ContractRef
 
 ZERO_ADDRESS = to_checksum_address("0x0000000000000000000000000000000000000000")
 

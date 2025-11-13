@@ -5,8 +5,8 @@ from unittest.mock import Mock, MagicMock, patch
 from eth_typing import ChecksumAddress, HexStr
 from web3 import Web3
 
-from somnia_streams.services.web3_client import Web3Client
-from somnia_streams.types import Client
+from somnia_data_streams_sdk.services.web3_client import Web3Client
+from somnia_data_streams_sdk.types import Client
 
 
 @pytest.fixture

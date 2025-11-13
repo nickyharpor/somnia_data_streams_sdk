@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import Mock, AsyncMock, patch
 from web3 import Web3
 from eth_account import Account
-from somnia_streams import SDK
+from somnia_data_streams_sdk import SDK
 
 
 def test_sdk_initialization():
@@ -38,8 +38,8 @@ def test_sdk_streams_property():
     assert streams1 is streams2
 
 
-@patch('somnia_streams.sdk.Web3')
-@patch('somnia_streams.sdk.get_default_rpc_url')
+@patch('somnia_data_streams_sdk.sdk.Web3')
+@patch('somnia_data_streams_sdk.sdk.get_default_rpc_url')
 def test_create_for_chain_with_private_key(mock_get_rpc, mock_web3_class):
     """Test SDK.create_for_chain with private key."""
     # Setup
@@ -61,8 +61,8 @@ def test_create_for_chain_with_private_key(mock_get_rpc, mock_web3_class):
     assert mock_web3_class.call_count == 2  # public and wallet clients
 
 
-@patch('somnia_streams.sdk.Web3')
-@patch('somnia_streams.sdk.get_default_rpc_url')
+@patch('somnia_data_streams_sdk.sdk.Web3')
+@patch('somnia_data_streams_sdk.sdk.get_default_rpc_url')
 def test_create_for_chain_without_private_key(mock_get_rpc, mock_web3_class):
     """Test SDK.create_for_chain without private key (read-only mode)."""
     # Setup
@@ -81,8 +81,8 @@ def test_create_for_chain_without_private_key(mock_get_rpc, mock_web3_class):
     assert mock_web3_class.call_count == 1  # only public client
 
 
-@patch('somnia_streams.sdk.Web3')
-@patch('somnia_streams.sdk.get_default_rpc_url')
+@patch('somnia_data_streams_sdk.sdk.Web3')
+@patch('somnia_data_streams_sdk.sdk.get_default_rpc_url')
 def test_create_for_chain_invalid_private_key(mock_get_rpc, mock_web3_class):
     """Test SDK.create_for_chain with invalid private key."""
     # Setup
@@ -95,7 +95,7 @@ def test_create_for_chain_invalid_private_key(mock_get_rpc, mock_web3_class):
         SDK.create_for_chain(50312, private_key="invalid_key")
 
 
-@patch('somnia_streams.sdk.get_default_rpc_url')
+@patch('somnia_data_streams_sdk.sdk.get_default_rpc_url')
 def test_create_for_chain_invalid_chain_id(mock_get_rpc):
     """Test SDK.create_for_chain with invalid chain ID."""
     # Setup
@@ -106,8 +106,8 @@ def test_create_for_chain_invalid_chain_id(mock_get_rpc):
         SDK.create_for_chain(99999)
 
 
-@patch('somnia_streams.sdk.Web3')
-@patch('somnia_streams.sdk.get_default_rpc_url')
+@patch('somnia_data_streams_sdk.sdk.Web3')
+@patch('somnia_data_streams_sdk.sdk.get_default_rpc_url')
 def test_create_for_chain_sets_default_account(mock_get_rpc, mock_web3_class):
     """Test that create_for_chain sets default account on wallet client."""
     # Setup

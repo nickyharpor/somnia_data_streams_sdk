@@ -6,7 +6,7 @@ from eth_utils import to_hex, keccak
 from web3 import Web3
 from web3.exceptions import ContractCustomError
 
-from somnia_streams.types import (
+from somnia_data_streams_sdk.types import (
     Client,
     ContractRef,
     KnownContracts,
@@ -20,9 +20,9 @@ from somnia_streams.types import (
     SchemaDecodedItem,
     GetSomniaDataStreamsProtocolInfoResponse,
 )
-from somnia_streams.services import Web3Client, get_contract_address_and_abi, maybe_log_contract_error
-from somnia_streams.utils import assert_address_is_valid
-from somnia_streams.constants import ZERO_BYTES32
+from somnia_data_streams_sdk.services import Web3Client, get_contract_address_and_abi, maybe_log_contract_error
+from somnia_data_streams_sdk.utils import assert_address_is_valid
+from somnia_data_streams_sdk.constants import ZERO_BYTES32
 from .encoder import SchemaEncoder
 
 

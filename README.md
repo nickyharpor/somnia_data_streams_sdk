@@ -2,6 +2,8 @@
 
 The Somnia Data Streams Python SDK enables streaming data on-chain, integrated with off-chain reactivity to unlock new paradigms in the blockchain ecosystem.
 
+[![PyPI Version](https://img.shields.io/pypi/v/somnia-data-streams-sdk.svg)](https://pypi.org/project/somnia-data-streams-sdk/)
+
 
 ## Features
 
@@ -82,7 +84,7 @@ from somnia_data_streams_sdk import DataSchemaRegistration
 
 registrations = [
     DataSchemaRegistration(
-        id="your-unique-id-here-otherwise-wont-register",
+        schema_name="your-unique-id-here-otherwise-wont-register",
         schema=test_schema,
         parent_schema_id=None
     )
@@ -94,7 +96,7 @@ else:
     print("Schema already registered or registration error")
 ```
 
-### Publish Data
+### Publish Data (Consumes Gas)
 
 ```python
 from eth_utils import to_hex, keccak
@@ -132,6 +134,59 @@ if data:
                 print(f"  {item.name}: {item.value.value}")
     else:  # Raw data
         print("Raw data (schema not public):", data)
+```
+
+### Register and Emit Events (Consumes Gas)
+
+```python
+from somnia_data_streams_sdk import EventSchema, EventParameter, EventStream
+from eth_utils import to_hex, keccak
+
+# First, register an event schema
+event_signature = "Transfer(address,uint256,uint256)"
+event_topic = to_hex(keccak(text=event_signature))  # Compute keccak256 hash
+
+event_schemas = [
+    EventSchema(
+        params=[
+            EventParameter(name="user", param_type="address", is_indexed=True),
+            EventParameter(name="amount", param_type="uint256", is_indexed=False),
+            EventParameter(name="timestamp", param_type="uint256", is_indexed=False),
+        ],
+        event_topic=event_topic  # HexStr: keccak256 hash of event signature
+    )
+]
+
+tx_hash = await sdk.streams.register_event_schemas(
+    ids=["my-transfer-event"],
+    schemas=event_schemas
+)
+if tx_hash and isinstance(tx_hash, str):
+    print(f"Event schema registered! TX: {tx_hash}")
+else:
+    print("Event schema registration failed or already registered")
+
+# Then emit events
+from eth_abi import encode
+
+event_data = encode(
+    ["uint256", "uint256"],
+    [1000, 1234567890]  # amount, timestamp
+)
+
+events = [
+    EventStream(
+        id="my-transfer-event",
+        argument_topics=[to_hex(keccak(hexstr="0x" + "1234567890123456789012345678901234567890"))],  # indexed user address
+        data=to_hex(event_data)
+    )
+]
+
+tx_hash = await sdk.streams.emit_events(events)
+if tx_hash and isinstance(tx_hash, str):
+    print(f"Events emitted! TX: {tx_hash}")
+else:
+    print("Event emission failed")
 ```
 
 

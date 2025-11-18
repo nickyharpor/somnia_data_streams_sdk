@@ -15,6 +15,11 @@ from .streams import (
     GetSomniaDataStreamsProtocolInfoResponse,
     SchemaID,
     SchemaReference,
+    LogTopic,
+    SomniaWatchFilter,
+    LogsFilter,
+    SubscriptionResult,
+    RpcResponse,
 )
 
 __all__ = [
@@ -36,4 +41,9 @@ __all__ = [
     "GetSomniaDataStreamsProtocolInfoResponse",
     "SchemaID",
     "SchemaReference",
+    "LogTopic",
+    "SomniaWatchFilter",
+    "LogsFilter",
+    "SubscriptionResult",
+    "RpcResponse",
 ]

@@ -1,7 +1,7 @@
 """Stream-related type definitions."""
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Callable, Any, Dict
+from typing import List, Optional, Callable, Any, Dict, Union, Literal
 from eth_typing import ChecksumAddress, HexStr
 
 
@@ -39,7 +39,7 @@ class DataStream:
 @dataclass
 class DataSchemaRegistration:
     """Arguments for registering a data schema."""
-    id: str
+    schema_name: str
     schema: str
     parent_schema_id: Optional[HexStr] = None
 
@@ -111,3 +111,77 @@ class GetSomniaDataStreamsProtocolInfoResponse:
 # Type aliases
 SchemaID = HexStr
 SchemaReference = str  # Can be literal schema or schema ID
+LogTopic = Union[HexStr, List[HexStr], None]
+
+
+@dataclass
+class SomniaWatchFilter:
+    """Filter for somnia_watch subscription."""
+    address: Optional[Union[ChecksumAddress, List[ChecksumAddress]]] = None
+    topics: Optional[List[LogTopic]] = None
+    eth_calls: Optional[List[EthCall]] = None
+    context: Optional[str] = None
+    push_changes_only: Optional[bool] = None
+
+
+@dataclass
+class LogsFilter:
+    """Filter for logs subscription."""
+    address: Optional[Union[ChecksumAddress, List[ChecksumAddress]]] = None
+    topics: Optional[List[LogTopic]] = None
+
+
+@dataclass
+class SubscriptionResult:
+    """Result from a subscription."""
+    subscription_id: str
+    unsubscribe: Callable[[], None]
+
+
+@dataclass
+class RpcResponse:
+    """RPC response structure."""
+    jsonrpc: str
+    id: int
+    result: Optional[Any] = None
+    error: Optional[Any] = None
+    method: Optional[str] = None
+    params: Optional[Dict[str, Any]] = None
+
+
+# Subscription parameter types for different subscription methods
+@dataclass
+class SubscribeParams:
+    """Base subscription parameters."""
+    on_data: Callable[[RpcResponse], None]
+    on_error: Optional[Callable[[Any], None]] = None
+
+
+@dataclass
+class NewHeadsSubscribeParams(SubscribeParams):
+    """Parameters for newHeads subscription."""
+    params: Literal["newHeads"] = "newHeads"
+
+
+@dataclass
+class NewPendingTransactionsSubscribeParams(SubscribeParams):
+    """Parameters for newPendingTransactions subscription."""
+    params: Literal["newPendingTransactions"] = "newPendingTransactions"
+
+
+@dataclass
+class LogsSubscribeParams(SubscribeParams):
+    """Parameters for logs subscription."""
+    params: tuple[Literal["logs"], LogsFilter] = field(default_factory=lambda: ("logs", LogsFilter()))
+
+
+@dataclass
+class SyncingSubscribeParams(SubscribeParams):
+    """Parameters for syncing subscription."""
+    params: Literal["syncing"] = "syncing"
+
+
+@dataclass
+class SomniaWatchSubscribeParams(SubscribeParams):
+    """Parameters for somnia_watch subscription."""
+    params: tuple[Literal["somnia_watch"], SomniaWatchFilter] = field(default_factory=lambda: ("somnia_watch", SomniaWatchFilter()))

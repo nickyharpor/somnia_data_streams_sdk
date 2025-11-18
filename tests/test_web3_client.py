@@ -143,8 +143,8 @@ async def test_write_contract_nonce_fetching(mock_public_client, mock_account, m
         value=0
     )
     
-    # Verify nonce was fetched for the account address
-    mock_public_client.eth.get_transaction_count.assert_called_once_with(mock_account.address)
+    # Verify nonce was fetched for the account address with 'pending' parameter
+    mock_public_client.eth.get_transaction_count.assert_called_once_with(mock_account.address, 'pending')
 
 
 @pytest.mark.asyncio

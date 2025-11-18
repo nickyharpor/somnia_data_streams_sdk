@@ -1,5 +1,7 @@
 .venv
 .pytest_cache
+.idea
+.qodo
 __pycache__
 dist
 secrets

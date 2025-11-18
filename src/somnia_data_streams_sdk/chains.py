@@ -13,8 +13,14 @@ SOMNIA_TESTNET = {
         "decimals": 18,
     },
     "rpcUrls": {
-        "default": {"http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"]},
-        "public": {"http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"]},
+        "default": {
+            "http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"],
+            "webSocket": ["wss://dream-rpc.somnia.network/ws"],
+        },
+        "public": {
+            "http": ["https://rpc.ankr.com/somnia_testnet", "https://dream-rpc.somnia.network"],
+            "webSocket": ["wss://dream-rpc.somnia.network/ws"],
+        },
     },
     "blockExplorers": {
         "default": {
@@ -32,12 +38,18 @@ SOMNIA_MAINNET = {
     "network": "somnia-mainnet",
     "nativeCurrency": {
         "name": "Somnia",
-        "symbol": "STT",
+        "symbol": "SOMI",
         "decimals": 18,
     },
     "rpcUrls": {
-        "default": {"http": ["https://rpc.somnia.network"]},
-        "public": {"http": ["https://rpc.somnia.network"]},
+        "default": {
+            "http": ["https://rpc.somnia.network"],
+            "webSocket": ["wss://ws.somnia.network"],
+        },
+        "public": {
+            "http": ["https://rpc.somnia.network"],
+            "webSocket": ["wss://ws.somnia.network"],
+        },
     },
     "blockExplorers": {
         "default": {

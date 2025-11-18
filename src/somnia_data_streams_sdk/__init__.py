@@ -17,9 +17,14 @@ from .types import (
     DataStream,
     DataSchemaRegistration,
     EthCall,
+    LogTopic,
+    SomniaWatchFilter,
+    LogsFilter,
+    SubscriptionResult,
+    RpcResponse
 )
 
-__version__ = "0.9.5.3"
+__version__ = "0.11.0"
 
 __all__ = [
     "SDK",
@@ -38,4 +43,9 @@ __all__ = [
     "DataStream",
     "DataSchemaRegistration",
     "EthCall",
+    "LogTopic",
+    "SomniaWatchFilter",
+    "LogsFilter",
+    "SubscriptionResult",
+    "RpcResponse"
 ]

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "somnia-data-streams-sdk"
-version = "0.9.5.3"
+version = "0.11.0"
 description = "A Python SDK for Somnia data streams with first class reactivity support"
 readme = "README.md"
 requires-python = ">=3.8"

@@ -24,7 +24,7 @@ from .types import (
     RpcResponse
 )
 
-__version__ = "0.11.0"
+__version__ = "0.11.0.1"
 
 __all__ = [
     "SDK",

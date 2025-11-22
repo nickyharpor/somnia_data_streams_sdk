@@ -94,3 +94,17 @@ def get_default_rpc_url(chain_id: int) -> str:
     """
     chain = get_chain_config(chain_id)
     return chain["rpcUrls"]["default"]["http"][0]
+
+
+def get_default_web_socket_url(chain_id: int) -> str:
+    """
+    Get default RPC URL for a chain.
+    
+    Args:
+        chain_id: Chain ID
+        
+    Returns:
+        Default RPC URL
+    """
+    chain = get_chain_config(chain_id)
+    return chain["rpcUrls"]["default"]["webSocket"][0]

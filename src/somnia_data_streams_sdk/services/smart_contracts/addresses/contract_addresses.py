@@ -21,6 +21,10 @@ KNOWN_CONTRACTS_BY_CHAIN: Dict[KnownContracts, Dict[str, ChecksumAddress]] = {
 }
 
 
+def get_somnia_testnet_contract_address() -> ChecksumAddress:
+    return STREAMS_LIBRARY_BY_CHAIN.get(Chains.SOMNIA_TESTNET)
+
+
 async def get_contract_address(ref: ContractRef) -> Optional[ChecksumAddress]:
     """
     Get contract address from reference.

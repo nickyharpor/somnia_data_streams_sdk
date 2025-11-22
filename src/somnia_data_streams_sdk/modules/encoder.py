@@ -1,7 +1,7 @@
 """Schema encoder for ABI encoding/decoding."""
 
 import re
-from typing import List, Any, Dict, Tuple, Optional
+from typing import List, Any, Dict, Tuple
 from eth_abi import encode, decode
 from eth_utils import to_bytes, to_hex
 from eth_typing import HexStr

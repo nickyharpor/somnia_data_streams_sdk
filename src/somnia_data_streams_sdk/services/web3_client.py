@@ -20,7 +20,7 @@ class Web3Client:
         self.client = client
         self._chain_id: int = 0
     
-    async def get_chain_id(self) -> int:
+    def get_chain_id(self) -> int:
         """
         Get chain ID (cached after first call).
         
@@ -91,7 +91,7 @@ class Web3Client:
         
         # Get transaction parameters
         account_address = self.client.account.address
-        chain_id = await self.get_chain_id()
+        chain_id = self.get_chain_id()
         
         # Fetch nonce using get_transaction_count with 'pending' to include pending transactions
         nonce = self.client.public.eth.get_transaction_count(account_address, 'pending')

@@ -6,13 +6,16 @@ from eth_account import Account
 
 from .types import Client
 from .modules import Streams
-from .chains import get_default_rpc_url
+from .chains import get_default_rpc_url, get_default_web_socket_url
+from web3.providers.persistent import WebSocketProvider
 
 
 class SDK:
     """Main entry point for the Somnia Streams SDK."""
     
-    def __init__(self, public: Web3, wallet: Optional[Web3] = None) -> None:
+    def __init__(self, public: Web3,
+        wallet: Optional[Web3] = None,
+        web_socket: Optional[WebSocketProvider] = None) -> None:
         """
         Create a new SDK instance (manual configuration).
         
@@ -24,10 +27,12 @@ class SDK:
             wallet: Optional wallet Web3 client for transactions
         """
         client = Client(public=public, wallet=wallet, account=None)
-        self._streams = Streams(client)
+        self._streams = Streams(client=client, web_socket=web_socket)
     
     @classmethod
-    def create_for_chain(cls, chain_id: int, private_key: Optional[str] = None) -> "SDK":
+    def create_for_chain(cls, chain_id: int,
+        private_key: Optional[str] = None,
+        web_socket: Optional[WebSocketProvider] = None) -> "SDK":
         """
         Create SDK instance using default RPC for a chain.
         
@@ -46,6 +51,11 @@ class SDK:
         """
         # Get RPC URL for the chain
         rpc_url = get_default_rpc_url(chain_id)
+
+        # Get Web Socket URL for the chain
+        if not web_socket:
+            web_socket_url = get_default_web_socket_url(chain_id)
+            web_socket = WebSocketProvider(web_socket_url)
         
         # Create public client
         public_client = Web3(Web3.HTTPProvider(rpc_url))
@@ -67,12 +77,12 @@ class SDK:
         
         # Create client with account
         client = Client(public=public_client, wallet=wallet_client, account=account)
-        
+
         # Use internal method to create SDK instance
-        return cls._from_client(client)
+        return cls._from_client(client, web_socket)
     
     @classmethod
-    def _from_client(cls, client: Client) -> "SDK":
+    def _from_client(cls, client: Client, web_socket: WebSocketProvider) -> "SDK":
         """
         Internal: Create SDK from a Client instance.
         
@@ -83,7 +93,7 @@ class SDK:
             SDK instance
         """
         instance = cls.__new__(cls)
-        instance._streams = Streams(client)
+        instance._streams = Streams(client, web_socket)
         return instance
     
     @property

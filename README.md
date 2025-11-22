@@ -13,6 +13,7 @@ The Somnia Data Streams Python SDK enables streaming data on-chain, integrated w
 - Type-safe API with comprehensive type definitions
 - Asynchronized architecture for better CPU utilization on high load
 - Extensive unit tests and integration tests
+- Example code snippets for all functionalities
 
 
 ## Installation
@@ -39,6 +40,8 @@ sdk = SDK.create_for_chain(SOMNIA_TESTNET["id"], private_key="0x...")
 ### Get All Registered Schemas
 
 ```python
+import asyncio
+
 schemas = await sdk.streams.get_all_schemas()
 for i, schema in enumerate(schemas):
     print(f"{i+1}. {schema}")
@@ -67,7 +70,7 @@ from somnia_data_streams_sdk import SchemaEncoder, SchemaItem
 encoder = SchemaEncoder("uint256 balance, address owner")
 encoded = encoder.encode_data([
     SchemaItem(name="balance", type="uint256", value=666),
-    SchemaItem(name="owner", type="address", value="0x7e5f4552091a69125d5dfcb7b8c2659029395bdf"),
+    SchemaItem(name="owner", type="address", value="0x..."),
 ])
 print(f"Encoded Schema: {encoded}")
 
@@ -77,7 +80,7 @@ for item in decoded:
     print(f"  {item.name} ({item.type}): {item.value.value}")
 ```
 
-### Register a Schema (Consumes Gas)
+### Register a Data Schema (Consumes Gas)
 
 ```python
 from somnia_data_streams_sdk import DataSchemaRegistration
@@ -136,57 +139,94 @@ if data:
         print("Raw data (schema not public):", data)
 ```
 
-### Register and Emit Events (Consumes Gas)
+### Register Events (Consumes Gas)
 
 ```python
-from somnia_data_streams_sdk import EventSchema, EventParameter, EventStream
+from somnia_data_streams_sdk import EventSchema, EventParameter
 from eth_utils import to_hex, keccak
 
-# First, register an event schema
-event_signature = "Transfer(address,uint256,uint256)"
-event_topic = to_hex(keccak(text=event_signature))  # Compute keccak256 hash
+event_signature = "TestV1(uint256 indexed x)"
+event_id = "TestV1"
 
 event_schemas = [
     EventSchema(
         params=[
-            EventParameter(name="user", param_type="address", is_indexed=True),
-            EventParameter(name="amount", param_type="uint256", is_indexed=False),
-            EventParameter(name="timestamp", param_type="uint256", is_indexed=False),
+            EventParameter(name="x", param_type="uint256", is_indexed=True)
         ],
-        event_topic=event_topic  # HexStr: keccak256 hash of event signature
+        event_topic=to_hex(keccak(text=event_signature))
     )
 ]
 
 tx_hash = await sdk.streams.register_event_schemas(
-    ids=["my-transfer-event"],
+    ids=[event_id],
     schemas=event_schemas
 )
+
 if tx_hash and isinstance(tx_hash, str):
-    print(f"Event schema registered! TX: {tx_hash}")
+    print(f"Event schema registered! TX: 0x{tx_hash}")
 else:
     print("Event schema registration failed or already registered")
 
-# Then emit events
+time.sleep(5) # gives Somnia's blockchain a short time to register the event
+
+tx_hash = await sdk.streams.manage_event_emitters_for_registered_streams_event(
+    event_id, "0x...", True) # Replace 0x... with your public key
+print(f"Event permission added! TX: 0x{tx_hash}")
+```
+
+### Emit Events (Consumes Gas)
+
+```python
 from eth_abi import encode
+from somnia_data_streams_sdk import EventStream
 
 event_data = encode(
-    ["uint256", "uint256"],
-    [1000, 1234567890]  # amount, timestamp
+    ["uint256"],
+    [13] # Replace 13 with any unsigned int value you want to emit
 )
 
 events = [
     EventStream(
-        id="my-transfer-event",
-        argument_topics=[to_hex(keccak(hexstr="0x" + "1234567890123456789012345678901234567890"))],  # indexed user address
-        data=to_hex(event_data)
+        id=event_id,
+        argument_topics=[to_hex(keccak(text=event_signature))],
+        data=event_data
     )
 ]
 
 tx_hash = await sdk.streams.emit_events(events)
 if tx_hash and isinstance(tx_hash, str):
-    print(f"Events emitted! TX: {tx_hash}")
+    print(f"Events emitted! TX: 0x{tx_hash}")
 else:
     print("Event emission failed")
+```
+
+### Subscribe to Events
+
+```python
+from somnia_data_streams_sdk import SubscriptionInitParams
+
+def on_data(data):
+    print(data)
+
+def on_error(error):
+    print(error)
+
+subscription = await sdk.streams.subscribe(
+    SubscriptionInitParams(
+        somnia_streams_event_id="TestV1",
+        eth_calls=[],
+        on_data=on_data,
+        on_error=on_error,
+        only_push_changes=True
+    )
+)
+
+print("Subscribed to TestV1. Press Ctrl+C to stop.")
+
+try:
+    await asyncio.Future()
+except:
+    await subscription.get("unsubscribe")
 ```
 
 
@@ -220,4 +260,4 @@ If it's bug fix or code improvement (i.e. not a new feature), please make sure y
 pytest -v -s
 ```
 
-If it's a new feature, don't forget to write unit tests and integration tests for it.
+If it's a new feature, don't forget to write examples, unit tests, and integration tests for it.
